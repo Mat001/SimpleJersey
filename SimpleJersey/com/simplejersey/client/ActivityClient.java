@@ -69,7 +69,7 @@ public class ActivityClient
 		return response;
 	}
 	
-	// client creates activity by POST method
+	// client creates activity by POST method - posting to generic URL
 	public Activity create(Activity activity)
 	{
 		WebTarget target = client.target("http://localhost:8080/SimpleJersey/rest/");

@@ -5,10 +5,12 @@ import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
@@ -32,13 +34,27 @@ public class ActivityResource
 		return activityRepository.findAllActivities();
 	}
 
+	@PUT
+	@Path("{activityId}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public Response updateActivity(Activity activity)
+	{
+		System.out.println("ID: " + activity.getId());
+		activity = activityRepository.update(activity);
+		
+		return Response.ok().entity(activity).build();
+	}
+	
+	
+	
 	@POST
 	@Path("activity")
 	@Consumes(MediaType.APPLICATION_JSON)
 	// media type that we use to put into the web form. post into DB
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	// what is @Produces useful for here??????
-	public Activity createActivityParams(Activity activity)
+	public Activity createActivity(Activity activity)
 	{
 		// useful info (in server console)
 		System.out.println("\n********************************************");
@@ -51,6 +67,28 @@ public class ActivityResource
 
 		return activity;
 	}
+	
+	@POST
+	@Path("activity")
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public Activity createActivityParams(MultivaluedMap<String, String> formParams)
+	{
+		// useful info (in server console)
+		System.out.println("\n********************************************");
+		System.out.println("Description-form params: " + formParams.getFirst("description"));
+		System.out.println("Duration: " + formParams.getFirst("duration"));
+		System.out.println("\n********************************************");
+
+		Activity activity = new Activity();
+		activity.setDescription(formParams.getFirst("description"));
+		activity.setDuration(Integer.parseInt(formParams.getFirst("duration")));
+		
+		activityRepository.create(activity);
+
+		return activity;
+	}
+	
 
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })

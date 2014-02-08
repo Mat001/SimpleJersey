@@ -67,5 +67,18 @@ public class ActivityRepositoryStub implements ActivityRepository
 		
 		return activity1;
 	}
+
+	@Override
+	public Activity update(Activity activity)
+	{
+		// search the database to see if we have an activity with that id already
+		// example: SELECT * FROM Activity WHERE id = ?
+		// if size == 0
+		// INSERT into Activity table
+		// else
+		// update the Activity table
+		
+		return activity;
+	}
 	
 }
