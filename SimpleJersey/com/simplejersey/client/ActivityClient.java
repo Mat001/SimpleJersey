@@ -4,9 +4,11 @@ import java.util.List;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import com.simplejersey.model.Activity;
 
@@ -46,9 +48,12 @@ public class ActivityClient
 		
 		//Activity response = target.path("activities/" + id).request().get(Activity.class);
 		// optionally specify media type (for ex. JSON) in request() - xml is default
-		Activity response = target.path("activities/" + id).request(MediaType.APPLICATION_JSON).get(Activity.class);
+		Response response = target.path("activities/" + id).request(MediaType.APPLICATION_JSON).get(Response.class);
 				
-		return response;
+		if((response.getStatus()) != 200)
+			throw new RuntimeException(response.getStatus() + ": there was an error on the server. ");
+		
+		return response.readEntity(Activity.class);
 	}
 	
 	// respond with list of activities
@@ -62,6 +67,42 @@ public class ActivityClient
 		List<Activity> response = target.path("activities").request(MediaType.APPLICATION_JSON).get(new GenericType<List<Activity>>(){});
 		
 		return response;
+	}
+	
+	// client creates activity by POST method
+	public Activity create(Activity activity)
+	{
+		WebTarget target = client.target("http://localhost:8080/SimpleJersey/rest/");
+		
+		// NOTE: here we pass "activity" as the last URL part, not the id. URL points to activity now, not id
+		// this created method (client side) is related to createActivityParams method in ActivityResource (server side).
+		// note also that we changed get method to post (.post(Entity.entity(activity, MediaType.APPLICATION_JSON)))
+		Response response = target.path("activities/activity")
+				.request(MediaType.APPLICATION_JSON)
+				.post(Entity.entity(activity, MediaType.APPLICATION_JSON));
+				
+		if((response.getStatus()) != 200)
+			throw new RuntimeException(response.getStatus() + ": there was an error on the server. ");
+		
+		return response.readEntity(Activity.class);
+	}
+
+	// client updates activity by PUT method
+	// two things changed: 
+	// 1.instead of activity at the end of URL we now have activity.getId()
+	// 2. put instead of post
+	public Activity update(Activity activity)
+	{
+		WebTarget target = client.target("http://localhost:8080/SimpleJersey/rest/");
+		
+		Response response = target.path("activities/" + activity.getId())
+				.request(MediaType.APPLICATION_JSON)
+				.put(Entity.entity(activity, MediaType.APPLICATION_JSON));
+		
+		if((response.getStatus()) != 200)
+			throw new RuntimeException(response.getStatus() + ": there was an error on the server. ");
+		
+		return response.readEntity(Activity.class);
 	}
 	
 }

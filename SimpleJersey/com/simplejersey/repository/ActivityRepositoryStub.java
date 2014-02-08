@@ -48,11 +48,10 @@ public class ActivityRepositoryStub implements ActivityRepository
 	{
 		// WE WOULD PULL FROM DATABASE HERE ! In this case activity id.
 		
-		// test
+		// test - temporarily hardcoding for test purposes - eventually this data would come from DB
 		if(activityId.equals("7777"))
 			return null;
 			
-		
 		Activity activity1 = new Activity();
 		
 		activity1.setId("1234");

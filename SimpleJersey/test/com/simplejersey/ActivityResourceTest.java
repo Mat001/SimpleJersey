@@ -2,9 +2,9 @@ package com.simplejersey;
 
 import static org.junit.Assert.assertNotNull;
 
-import org.junit.Test;
+import javax.ws.rs.core.Response;
 
-import com.simplejersey.model.Activity;
+import org.junit.Test;
 
 public class ActivityResourceTest
 {
@@ -13,9 +13,9 @@ public class ActivityResourceTest
 	public void testGetActivity()
 	{
 		ActivityResource ar = new ActivityResource();
-		Activity a = ar.getActivity("1234");
+		Response a = ar.getActivity("1234");
 		
-		System.out.println("Activity a: " + a);
+		System.out.println("Activity/Response a: " + a);
 		
 		assertNotNull(a);
 	}

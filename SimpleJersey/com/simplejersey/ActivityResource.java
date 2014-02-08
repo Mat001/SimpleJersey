@@ -9,6 +9,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import com.simplejersey.model.Activity;
 import com.simplejersey.model.User;
@@ -54,12 +56,31 @@ public class ActivityResource
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Path("{activityId}")
 	// http:localhost:8080/SimpleJersey/rest/activities/1234
-	public Activity getActivity(@PathParam("activityId") String activityId)
+	public Response getActivity(@PathParam("activityId") String activityId)
 	{	
 		// exception handling in case a bad id has been passed as parameter
+		/*
+		 * if activityId is null or is less than 4 characters, then show message bead request (301).
+		 * if not, then retrieve activity and assign it to the variable activity.
+		 * if this activity is null then, activity was not found -> show message not found (404)
+		 * if all ok and activity is not null, then return activity and show ok response. 
+		 */
 		
+		// equals() I used here for comparison - in tutorial tutor used == !
+		// I chose equals() because equals is used when you want to see if two objects have the same value. 
+		// == would be used to see if two object are the same object (point to the same object, have the same reference)
+		// so I believe equals() should be used
+		// here we use equals because we're comparing values, not references
+		// but it doesn't seem to matter in this case, both work fine
+		if(activityId.equals(null) || activityId.length() < 4)	
+			return Response.status(Status.BAD_REQUEST).build();
 		
-		return activityRepository.findActivity(activityId);
+		Activity activity = activityRepository.findActivity(activityId);
+		
+		if(activity == null)	// here use ==, not equals() because we're comparing references
+			return Response.status(Status.NOT_FOUND).build();
+		
+		return Response.ok().entity(activity).build();
 	}
 
 	@GET
