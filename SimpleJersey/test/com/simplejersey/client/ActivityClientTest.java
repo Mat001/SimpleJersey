@@ -10,6 +10,14 @@ import com.simplejersey.model.Activity;
 
 public class ActivityClientTest
 {
+	
+	// testing DELETE method
+	@Test
+	public void testDelete()
+	{
+		ActivityClient client = new ActivityClient();
+		client.delete("1234");
+	}
 
 	// testing PUT method
 	@Test

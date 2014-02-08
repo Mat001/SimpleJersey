@@ -3,6 +3,7 @@ package com.simplejersey;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -34,6 +35,21 @@ public class ActivityResource
 		return activityRepository.findAllActivities();
 	}
 
+	@DELETE
+	@Path("{activityId}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public Response delete(@PathParam("activityId") String activityId)
+	{
+		System.out.println("ActivityId when deleting: " + activityId);
+		
+		activityRepository.delete(activityId);
+		
+		return Response.ok().build();
+	}
+	
+	
+	
 	@PUT
 	@Path("{activityId}")
 	@Consumes(MediaType.APPLICATION_JSON)

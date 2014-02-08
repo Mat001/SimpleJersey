@@ -22,6 +22,13 @@ public class ActivityRepositoryStub implements ActivityRepository
 		
 	}
 	
+	@Override
+	public void delete(String activityId)
+	{
+		// delete from activity where activityId = ?
+	}
+	
+	
 	public List<Activity> findAllActivities()
 	{
 		// create a list of activities
