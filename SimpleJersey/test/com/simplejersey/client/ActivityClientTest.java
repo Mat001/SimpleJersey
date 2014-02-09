@@ -26,7 +26,7 @@ public class ActivityClientTest
 		Activity activity = new Activity();
 		
 		activity.setId("3456");		// NEED TO SET ID !!!!  PUT method requires it!!
-		activity.setDescription("Bikram yoga");
+		activity.setDescription("Bikram yoga activity");
 		activity.setDuration(75);
 		
 		ActivityClient client = new ActivityClient();
