@@ -8,9 +8,11 @@ import javax.xml.bind.annotation.XmlRootElement;
  * as specified in the @Produces annotation
  * about JAXB read here: http://stackoverflow.com/questions/607141/what-is-jaxb-and-why-would-i-use-it
  */
+
 @XmlRootElement	
 public class Activity
 {
+	
 	private String description;
 	private int duration;
 	private String Id;

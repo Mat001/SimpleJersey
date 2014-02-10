@@ -1,7 +1,6 @@
-/*
- * Repository is what DAO used to be  !!
- * 
- * Stub mimics database data
+/**
+ * - Repository is what DAO used to be  !!
+ * - Stub mimics database data
  */
 
 package com.simplejersey.repository;
@@ -9,17 +8,22 @@ package com.simplejersey.repository;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.mongodb.morphia.query.Query;
+
 import com.simplejersey.model.Activity;
 import com.simplejersey.model.User;
 
+
 public class ActivityRepositoryStub implements ActivityRepository
 {
+	
+	private MongoConnection dbConnection;
 	
 	@Override
 	public void create(Activity activity)
 	{
 		// here you would use INSERT statement and write activity to the database
-		
+		dbConnection.getDatastore().save(activity);
 	}
 	
 	@Override
@@ -28,7 +32,7 @@ public class ActivityRepositoryStub implements ActivityRepository
 		// delete from activity where activityId = ?
 	}
 	
-	
+	// get the list of all activities
 	public List<Activity> findAllActivities()
 	{
 		// create a list of activities
@@ -37,7 +41,7 @@ public class ActivityRepositoryStub implements ActivityRepository
 		// create activities
 		Activity activity1 = new Activity();
 		activity1.setDescription("swimming");
-		activity1.setDuration(55);
+		activity1.setDuration(66);
 		activity1.setAge(25);
 		activities.add(activity1);
 		
@@ -47,7 +51,11 @@ public class ActivityRepositoryStub implements ActivityRepository
 		activity1.setAge(34);
 		activities.add(activity2);
 		
-		return activities;
+		
+		Query<Activity> query = dbConnection.getDatastore().find(Activity.class);
+		return query.asList();	// return list of activities
+		
+		//return activities;
 	}
 	
 	@Override
