@@ -16,7 +16,7 @@ public class ActivityClientTest
 	public void testDelete()
 	{
 		ActivityClient client = new ActivityClient();
-		client.delete("1234");
+		client.delete("7777");
 	}
 
 	// testing PUT method
@@ -46,7 +46,7 @@ public class ActivityClientTest
 		// WE ARE NOT SETTING THE ID WITH THIS OBJECT - BECAUSE WE'RE using THE POST METHOD
 		// POST method does not deal with id-s (PUT method does !!!)
 		Activity activity = new Activity();
-		activity.setDescription("swimming");
+		activity.setDescription("swimming-test");
 		activity.setDuration(90);
 		
 		activity = client.create(activity);

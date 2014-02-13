@@ -5,19 +5,27 @@
 
 package com.simplejersey.repository;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import javax.ejb.EJB;
 
 import org.mongodb.morphia.query.Query;
 
 import com.simplejersey.model.Activity;
 import com.simplejersey.model.User;
 
-
 public class ActivityRepositoryStub implements ActivityRepository
 {
-	
+
 	private MongoConnection dbConnection;
+	
+	// constructor to initialize Mongodb connection
+	// using EJBs this instantiation would be taken care of by EJB!
+	public ActivityRepositoryStub()
+	{
+		dbConnection = new MongoConnection();	// giang wrote this should have keyword 'this': this.dbConnection = ...
+	}
+	
 	
 	@Override
 	public void create(Activity activity)
@@ -30,15 +38,18 @@ public class ActivityRepositoryStub implements ActivityRepository
 	public void delete(String activityId)
 	{
 		// delete from activity where activityId = ?
+		dbConnection.getDatastore().delete(activityId);	// is this correct??
 	}
 	
 	// get the list of all activities
 	public List<Activity> findAllActivities()
 	{
+		/*
 		// create a list of activities
 		List<Activity> activities = new ArrayList<Activity>();
 		
 		// create activities
+		
 		Activity activity1 = new Activity();
 		activity1.setDescription("swimming");
 		activity1.setDuration(66);
@@ -51,11 +62,11 @@ public class ActivityRepositoryStub implements ActivityRepository
 		activity1.setAge(34);
 		activities.add(activity2);
 		
+		return activities;
+		*/
 		
 		Query<Activity> query = dbConnection.getDatastore().find(Activity.class);
 		return query.asList();	// return list of activities
-		
-		//return activities;
 	}
 	
 	@Override
@@ -79,7 +90,7 @@ public class ActivityRepositoryStub implements ActivityRepository
 		user.setName("Matjaz");
 		
 		activity1.setUser(user);
-		
+				
 		return activity1;
 	}
 

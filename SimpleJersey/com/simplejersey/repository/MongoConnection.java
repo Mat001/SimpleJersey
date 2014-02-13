@@ -2,11 +2,14 @@ package com.simplejersey.repository;
 
 import java.util.logging.Logger;
 
+import javax.ejb.Singleton;
+import javax.ejb.Startup;
+
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
+
 import com.mongodb.MongoClient;
 import com.simplejersey.model.Activity;
-
 
 public class MongoConnection
 {

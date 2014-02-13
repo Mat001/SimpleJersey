@@ -20,16 +20,17 @@ import com.simplejersey.model.User;
 import com.simplejersey.repository.ActivityRepository;
 import com.simplejersey.repository.ActivityRepositoryStub;
 
+
 @Path("activities")
 // http:localhost:8080/SimpleJersey/rest/activities
 public class ActivityResource
 {
+	
 	private ActivityRepository activityRepository = new ActivityRepositoryStub();
 
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	// note that JAXB converts POJO to JSON via XML!!!!! Our XML annotations
-	// affect JSON!
+	// note that JAXB converts POJO to JSON via XML!!!!! Our XML annotations affect JSON!
 	public List<Activity> getAllActivities()
 	{
 		return activityRepository.findAllActivities();
